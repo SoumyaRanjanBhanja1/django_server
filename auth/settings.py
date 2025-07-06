@@ -33,7 +33,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # ✅ MUST BE FIRST
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -88,7 +88,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 static_dir = os.path.join(BASE_DIR, 'authapp/static')
 STATICFILES_DIRS = [static_dir] if os.path.exists(static_dir) else []
 
@@ -101,22 +100,34 @@ REST_FRAMEWORK = {
     ]
 }
 
-# ✅ CORS Settings
+# ✅ FINAL CORS SETTINGS
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # ✅ Add this for local development
-    "https://django-ui.vercel.app",  # ✅ Add this for production frontend
+    "http://localhost:3000",                # local frontend
+    "https://django-ui.vercel.app",        # deployed frontend
 ]
 
 CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
+
+CORS_ALLOW_METHODS = [  # ✅ Optional but helps with OPTIONS
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+# ✅ Optional: Add regex to allow subdomains (if needed)
+# CORS_ALLOWED_ORIGIN_REGEXES = [r"^https://.*\.vercel\.app$"]
