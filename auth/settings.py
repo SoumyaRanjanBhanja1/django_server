@@ -14,6 +14,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'authapp/static'),  # optional
 ]
 
+ 
+
 DEBUG = False
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -119,7 +121,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     # "http://localhost:3000",
-     "https://django-ui.vercel.app/",  # Your frontend React app
+     "https://django-ui.vercel.app",  # Your frontend React app
 ]
 
 # ✅ Optional - allow all headers
