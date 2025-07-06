@@ -93,6 +93,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'authapp/static'),  # Only if folder exists
 ]
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'authapp/static'),
+]
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django REST Framework
