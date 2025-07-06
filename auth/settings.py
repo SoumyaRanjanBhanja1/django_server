@@ -15,7 +15,7 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-# Custom user model
+# Custom User Model
 AUTH_USER_MODEL = 'authapp.CustomUser'
 
 # Authentication backends
@@ -34,23 +34,23 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'corsheaders',
+    'corsheaders',  # ✅ Must be here
     'authapp',
 ]
 
 # Middleware
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # ✅ Must be first
+    'corsheaders.middleware.CorsMiddleware',         # ✅ MUST BE FIRST
+    'django.middleware.common.CommonMiddleware',     # ✅ FOLLOW IMMEDIATELY
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# URL config
+# URL configuration
 ROOT_URLCONF = 'auth.urls'
 
 # Templates
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI
+# WSGI application
 WSGI_APPLICATION = 'auth.wsgi.application'
 
 # Database (MySQL)
@@ -103,13 +103,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Optional: Include static directory if exists
 static_dir = os.path.join(BASE_DIR, 'authapp/static')
 STATICFILES_DIRS = [static_dir] if os.path.exists(static_dir) else []
 
-# Auto field
+# Auto Field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Django REST Framework
+# DRF Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -121,8 +122,16 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",             # Local React frontend
-    "https://django-ui.vercel.app",     # Production React on Vercel
+    "https://django-ui.vercel.app",  # ✅ Your React Frontend on Vercel
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
 
 CORS_ALLOW_HEADERS = [
@@ -135,13 +144,4 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-]
-
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
 ]
