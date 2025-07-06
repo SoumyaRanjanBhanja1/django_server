@@ -19,13 +19,13 @@ STATICFILES_DIRS = [
 DEBUG = False
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-ALLOWED_HOSTS = ['https://django-server-4.onrender.com/','localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['django-server-6.onrender.com','localhost', '127.0.0.1']
 
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 AUTH_USER_MODEL = 'authapp.CustomUser'
 
-AAUTHENTICATION_BACKENDS = [
+AUTHENTICATION_BACKENDS = [
     'authapp.backends.EmailAuthBackend',   
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -120,7 +120,7 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    # "http://localhost:3000",
+    #  "http://localhost:3000",
      "https://django-ui.vercel.app",  # Your frontend React app
 ]
 
