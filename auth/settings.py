@@ -33,7 +33,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # ✅ CORS must be first
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -63,7 +63,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'auth.wsgi.application'
 
-# MySQL Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -89,17 +88,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'authapp/static'),  # Only if folder exists
-]
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'authapp/static'),
-]
+# ✅ Check if static directory exists before adding
+static_dir = os.path.join(BASE_DIR, 'authapp/static')
+if os.path.exists(static_dir):
+    STATICFILES_DIRS = [static_dir]
+else:
+    STATICFILES_DIRS = []
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -107,11 +105,12 @@ REST_FRAMEWORK = {
     ]
 }
 
-# CORS Settings
+# ✅ CORS Settings
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "https://django-ui.vercel.app",  # ✅ No trailing slash
+    "http://localhost:3000",              # ✅ React dev server
+    "https://django-ui.vercel.app",       # ✅ Vercel deployed frontend
 ]
 
 CORS_ALLOW_HEADERS = [
