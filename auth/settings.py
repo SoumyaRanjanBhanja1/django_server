@@ -118,7 +118,8 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Your frontend React app
+    # "http://localhost:3000",
+    "https://django-ui.vercel.app/",  # Your frontend React app
 ]
 
 # ✅ Optional - allow all headers
