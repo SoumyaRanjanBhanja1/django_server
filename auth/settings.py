@@ -1,37 +1,24 @@
 from pathlib import Path
 from decouple import config
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 import os
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'authapp/static'),  # optional
-]
-
- 
-
-DEBUG = False
-
+ALLOWED_HOSTS = ['django-server-6.onrender.com', 'localhost', '127.0.0.1']
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-ALLOWED_HOSTS = ['django-server-6.onrender.com','localhost', '127.0.0.1']
-
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 AUTH_USER_MODEL = 'authapp.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
-    'authapp.backends.EmailAuthBackend',   
+    'authapp.backends.EmailAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-
-# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,13 +28,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'rest_framework',
-    'corsheaders',         # CORS support
-    'authapp',             # Your custom app
+    'corsheaders',
+    'authapp',
 ]
 
-# Middleware
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # ✅ Must be first (or just after SecurityMiddleware)
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,7 +63,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'auth.wsgi.application'
 
-# ✅ MySQL Database
+# MySQL Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -88,7 +74,7 @@ DATABASES = {
         'PORT': config('DB_PORT', default='3306'),
     }
 }
-# Password validation
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -96,19 +82,20 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'authapp/static'),  # Only if folder exists
+]
 
-# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ✅ Django REST Framework
+# Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -116,16 +103,14 @@ REST_FRAMEWORK = {
     ]
 }
 
-# ✅ CORS Settings (for React app on localhost:3000)
+# CORS Settings
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    #  "http://localhost:3000",
-     "https://django-ui.vercel.app",  # Your frontend React app
+    "https://django-ui.vercel.app",  # ✅ No trailing slash
 ]
 
-# ✅ Optional - allow all headers
-CORS_ALLOW_HEADERS = list(default_headers := (
+CORS_ALLOW_HEADERS = [
     'accept',
     'accept-encoding',
     'authorization',
@@ -135,4 +120,4 @@ CORS_ALLOW_HEADERS = list(default_headers := (
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-))
+]
