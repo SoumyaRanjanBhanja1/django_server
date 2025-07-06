@@ -14,10 +14,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'authapp/static'),  # optional
 ]
 
-DEBUG = True
+DEBUG = False
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-ALLOWED_HOSTS = ['https://django-server-2-gwtq.onrender.com','localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['https://django-server-4.onrender.com/','localhost', '127.0.0.1']
 
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
